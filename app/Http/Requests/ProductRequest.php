@@ -25,10 +25,13 @@ class ProductRequest extends BaseFormRequest
     {
         $action = explode('@', $this->route()->getActionName())[1];
         $this->merge([
-            'product_id' => $this->route('product_id') ?? $this->all('product_id') ?? null
+            'product_id' => $this->route('product_id') ?? null
         ]);
         $common_rules = [];
         $rules = match ($action) {
+            "get_product_by_id" => [
+                'product_id' => 'required|integer|exists:products,id',
+            ],
             "create_product" => $this->get_create_product_rules(),
             "update_product" => $this->get_update_product_rules(),
             default => []

@@ -8,7 +8,6 @@ class ImageService {
     {
         $image_path = config('request.vendor_id') . "/$type/" . $image->getClientOriginalName();
         $response = Storage::disk('minio')->put($image_path,file_get_contents($image),'public');
-        dd($response);
         return null;
     }
 }

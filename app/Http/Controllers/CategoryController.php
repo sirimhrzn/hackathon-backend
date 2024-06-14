@@ -19,10 +19,11 @@ class CategoryController extends Controller
     public function get_categories(CategoryRequest $request)
     {
         $categories = Categories::activeCategories()->get();
-        if ($categories == null)
+        if ($categories == null){
             return response()->json([
                 'message' => 'No Categories Available'
             ],500);
+        }
         return response()->json([
             'data' => $categories
         ],200);
