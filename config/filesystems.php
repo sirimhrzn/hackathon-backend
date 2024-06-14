@@ -62,7 +62,7 @@ return [
             'secret' => env('MINIO_SECRET_KEY','bQVQiyZzFjEcZCbg2fAVf5nVi47UI1iq2i1ysaBb'),
             'region' => env('MINIO_REGION','us-east-1'),
             'bucket' => env('MINIO_BUCKET',"spcms"),
-            'endpoint' => env('MINIO_ENDPOINT','http://minio.sp.com/'),
+            'endpoint' => env('MINIO_ENDPOINT','http://172.20.0.4:9000'),
             'use_path_style_endpoint' => true,
         ],
 
