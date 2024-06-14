@@ -1,0 +1,51 @@
+version: "2.23"
+services:
+  minio:
+    image: minio/minio:RELEASE.2024-05-28T17-19-04Z.fips
+    container_name: sp-minio
+    environment:
+      - ACCESSKEY=siri
+      - SECRETKEY=siri
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - type: volume
+        source: sp-cms-storage
+        target: /data
+    command: ["server" , "/data" , "--console-address",  ":9003"]
+  maria_db:
+    image: mariadb:latest
+    container_name: sp-mariadb
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: siri
+    volumes:
+      - "sp-cms-storage:/var/lib/mysql"
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: sp-pma
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=maria_db
+  nginx:
+    image: nginx:latest
+    container_name: sp-nginx
+    restart: unless-stopped
+    ports:
+      - "8090:80"
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /home/sirimhrzn/nginx:/etc/nginx/conf.d
+      - /home/sirimhrzn/ssl/key.pem:/etc/ssl/key.pem
+      - /home/sirimhrzn/ssl/cert.pem:/etc/ssl/cert.pem
+      - /var/log/nginx/access.log:/var/log/nginx/access.log
+      - /var/log/nginx/error.log:/var/log/nginx/error.log
+volumes:
+  sp-cms-storage:

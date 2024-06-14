@@ -1,0 +1,6 @@
+vendor/
+.env
+.direnv
+/caddy
+frankenphp
+frankenphp-worker.php
