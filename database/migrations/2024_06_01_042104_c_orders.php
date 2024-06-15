@@ -13,6 +13,7 @@ return new class () extends Migration {
         Schema::create('orders', function (Blueprint $table) {
             $table->ulid('id')->primary();
             $table->unsignedBigInteger('vendor_id');
+            $table->string('payment_identifier')->default('null')->nullable();
             $table->foreign('vendor_id')->references('id')
                                         ->on('vendors');
             $table->unsignedBigInteger('location_id');
@@ -27,8 +28,10 @@ return new class () extends Migration {
                 'Unpaid',
                 'Refunded',
                 'Cancelled',
+                'User canceled',
+                'Completed',
                 'Failed'
-            ]);
+            ])->default('Unpaid');
             $table->enum('order_status', [
                 'Pending',
                 'Processing',
@@ -40,6 +43,7 @@ return new class () extends Migration {
                 'Returned and Refunded',
                 'Failed'
             ])->default('Pending');
+            $table->string('tid')->default(null)->nullable();
             $table->timestamps();
         });
     }

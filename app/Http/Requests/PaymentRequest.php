@@ -23,12 +23,13 @@ class PaymentRequest extends BaseFormRequest
     {
         $action = explode('@', $this->route()->getActionName())[1];
         return match ($action) {
-            'initiateKhalti' => [
+            'handle_order' => [
                 'name' => 'required',
                 'number' => 'required',
                 'location_id' => 'required',
-                'additional' => 'sometimes',
-                'orders' => 'required|array'
+                'additional' => 'sometimes|nullable',
+                'orders' => 'required|array',
+                'payment_method' => 'required'
             ],
             default => []
         };

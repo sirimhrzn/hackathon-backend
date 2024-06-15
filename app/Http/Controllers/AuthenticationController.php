@@ -137,6 +137,7 @@ class AuthenticationController extends Controller
     {
         $provider = $request->route('provider');
         $oauth_service = new OAuthService();
+        $new_vendor_details = $request->all();
         $oauth_service = match ($provider) {
             'google' => $oauth_service->set_provider(EnumOAuth::Google),
             default => throw new CustomException(ExceptionEnum::Unimplemented)
@@ -195,5 +196,29 @@ class AuthenticationController extends Controller
             // dont return refresh token
             // 'refresh_token' => $token_data['refresh_token'],
         ], 200, 'Successful token retrieval');
+    }
+    private function sign_up(AuthenticationRequest $request)
+    {
+        $data = $request->validated();
+        DB::beginTransaction();
+            $user = [
+                'name'           => $data['name'],
+                'number'         => $request->input('number') ?? "test_number",
+                'verified_email' => 'y',
+                'email'          => $data['email'],
+                'password'       => $data['password'],
+                'providers'      => null
+            ];
+
+            $store_name = $data['store_name'];
+            $user_id = User::create($user)->id;
+            $vendor_id = Vendors::create(['name' => $store_name])->id;
+            VendorUsers::create(['user_id' => $user_id,'vendor_id' => $vendor_id ]);
+            // create super admin role for the owner
+            Stores::create(['name' => $store_name,'vendor_id' => $vendor_id]);
+            $data['user_id'] = $user_id;
+            OAuthToken::create($data);
+            DB::commit();
+
     }
 }

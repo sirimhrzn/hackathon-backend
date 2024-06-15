@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Categories;
+use App\Models\Location;
 use App\Models\PaymentMethods;
 use App\Models\ProductDetails;
 use App\Models\Products;
@@ -53,7 +54,7 @@ class DatabaseSeeder extends Seeder
         Products::create([
             'name' => 'Iphone 13',
             'enabled' => 'y',
-            'price' => 190000,
+            'price' => 1000,
             'category_id' => 1,
             'vendor_id' => 1,
             'added_by' => 1
@@ -69,13 +70,13 @@ class DatabaseSeeder extends Seeder
                 'types' => [
                     [
                         'size' => 'L',
-                        'price' =>  1900,
+                        'price' =>  1000,
                         'stock' => 4
                     ],
                     [
                         'size' => 'M',
-                        'price' =>  1900,
-                        'stock' => 4
+                        'price' =>  1000,
+                        'stock' => 40
                     ]
                 ]
 
@@ -96,6 +97,18 @@ class DatabaseSeeder extends Seeder
                     ]
                 ]
             ])
+        ]);
+        Location::insert([
+                ["name" => "Kathmandu"],
+                ["name" => "Pokhara"],
+                ["name" => "Lalitpur"],
+                ["name" => "Biratnagar"],
+                ["name" => "Birgunj"],
+                ["name" => "Bharatpur"],
+                ["name" => "Hetauda"],
+                ["name" => "Janakpur"],
+                ["name" => "Dharan"],
+                ["name" => "Butwal"]
         ]);
     }
 }

@@ -17,6 +17,8 @@ class Orders extends Model
         "payment_method_id",
         "coupon_code",
         "payment_status",
-        "order_status"
+        "order_status",
+        "payment_identifier",
+        "tid"
     ];
 }
