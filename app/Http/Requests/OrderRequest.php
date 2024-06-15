@@ -35,7 +35,8 @@ class OrderRequest extends BaseFormRequest
                 "order_status" => "sometimes",
                 // "payment_identifier" => "sometimes",
                 // "tid" => "sometimes"
-            ]
+            ],
+            default => []
         };
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
@@ -8,6 +9,11 @@ use App\Http\Controllers\VendorController;
 use App\Models\Categories;
 use Illuminate\Support\Facades\Route;
 
+
+
+Route::group(['prefix' => 'images','middleware' => ['vendor']], function () {
+    Route::get('/{id}/product_image/{image_name}',[ImageController::class,'get_image']);
+});
 Route::group(['prefix' => 'product','middleware' => ['vendor']], function () {
     Route::group(['prefix' => 'admin'], function () {
         Route::get('/', [ProductController::class,'get_products']);
@@ -38,7 +44,7 @@ Route::group(['prefix' => 'order','middleware' => ['vendor']],function (){
         Route::post('/place-order',[PaymentController::class,'handle_order']);
     });
     Route::group(['prefix' => 'admin'],function(){
-        Route::get('orders',[OrderController::class,'get_admin_orders']);
+        Route::get('orders',[OrderController::class,'get_admin_order']);
         Route::patch('/:order_id',[OrderController::class,'update_order']);
     });
 });

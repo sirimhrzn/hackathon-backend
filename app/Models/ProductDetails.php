@@ -36,6 +36,15 @@ class ProductDetails extends BaseModel
     }
     public function getMetadataAttribute($value)
     {
-        return $this->decode_json_field($value);
+       $data = $this->decode_json_field($value);
+        $data = json_decode(json_encode($data),true);
+        if(isset($data['images'])){
+            foreach($data['images'] as $index=>$image) {
+                if(!str_contains($image,'http')){
+                    $data['images'][$index] = config('filesystems.disks.minio.endpoint') . "/spcms/$image";
+                }
+            }
+        }
+        return $data;
     }
 }

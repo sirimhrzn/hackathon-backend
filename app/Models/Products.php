@@ -37,7 +37,7 @@ class Products extends BaseModel
     {
         return $this->belongsTo(User::class, 'added_by', 'id');
     }
-        protected static function boot()
+    protected static function boot()
     {
         parent::boot();
         static::creating(function ($model) {

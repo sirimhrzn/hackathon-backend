@@ -58,7 +58,9 @@ class PaymentController extends Controller
         DB::commit();
         $payment_gateway = PaymentMethods::where('id',$payload['payment_method'])->get()->toArray();
         $redirect_url = $this->initiate_khalti($insert_payload);
-        return redirect($redirect_url);
+        return response()->json([
+            'redirect_url' => $redirect_url
+        ],200);
     }
     private function initiate_khalti($payload) {
         $khalti_payload = [
@@ -67,7 +69,7 @@ class PaymentController extends Controller
             'website_url' => "https://80cf-124-41-240-75.ngrok-free.app" . '/api/v1/global/setting/public/callback/khalti',
             'amount' => (int)$payload['total_amount'],
             'purchase_order_id' => $payload['id'],
-            'purchase_order_name' => parse_url(url()->current())['host'] . ":8012"
+            'purchase_order_name' => "localhost:3000"
         ];
         // dd($khalti_payload);
         $client = new Client();

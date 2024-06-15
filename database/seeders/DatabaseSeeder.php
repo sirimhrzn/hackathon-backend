@@ -78,12 +78,15 @@ class DatabaseSeeder extends Seeder
                         'price' =>  1000,
                         'stock' => 40
                     ]
+                ],
+                'images' => [
+                    "1/product_image/class.jpg"
                 ]
 
             ])
         ]);
         $payment_methods = [
-            ['name' => 'Esewa' , 'enabled' => 'y'],
+            // ['name' => 'Esewa' , 'enabled' => 'y'],
             ['name' => 'Khalti', 'enabled' => 'y']
         ];
         PaymentMethods::insert($payment_methods);

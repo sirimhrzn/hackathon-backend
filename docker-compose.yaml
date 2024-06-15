@@ -47,5 +47,7 @@ services:
       - /home/sirimhrzn/ssl/cert.pem:/etc/ssl/cert.pem
       - /var/log/nginx/access.log:/var/log/nginx/access.log
       - /var/log/nginx/error.log:/var/log/nginx/error.log
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 volumes:
   sp-cms-storage:

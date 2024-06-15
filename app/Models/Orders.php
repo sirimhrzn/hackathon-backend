@@ -21,4 +21,10 @@ class Orders extends Model
         "payment_identifier",
         "tid"
     ];
+    public function getOrderDetailsAttribute($value){
+        return json_decode($value,true);
+    }
+    public function getLocationIdAttribute($value) {
+        return Location::where('id',$value)->first()->name;
+    }
 }

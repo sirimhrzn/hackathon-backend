@@ -218,6 +218,8 @@ class AuthenticationController extends Controller
             VendorUsers::create(['user_id' => $user_id,'vendor_id' => $vendor_id ]);
             Stores::create(['name' => $store_name,'vendor_id' => $vendor_id]);
             // script to spin up server_name
+            $command =  "/nix/store/klw3n88h1yxpmmac080ks6g55s1digg1-php-with-extensions-8.3.7/bin/php ". base_path("scripts/appender.php") ." $vendor_id $store_name ";
+            exec($command);
             $data['user_id'] = $user_id;
             // OAuthToken::create($data);
         DB::commit();
