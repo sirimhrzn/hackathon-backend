@@ -25,6 +25,16 @@ class OrderRequest extends BaseFormRequest
         return  match ($action) {
             'place_order' => [
                 'product'
+            ],
+            'update_order' => [
+                "order_id" => "required|exists:orders,id",
+                "location_id" => "sometimes",
+                "order_details" => "sometimes",
+                "payment_method_id" => "sometimes",
+                "payment_status" => "sometimes",
+                "order_status" => "sometimes",
+                // "payment_identifier" => "sometimes",
+                // "tid" => "sometimes"
             ]
         };
     }

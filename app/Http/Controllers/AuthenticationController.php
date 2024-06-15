@@ -18,6 +18,7 @@ use App\Models\VendorUsers;
 use App\ReadOnlyClasses\RoJwtBuilder;
 use App\Http\Services\JwtService;
 use App\Enums\GrantType;
+use Illuminate\Support\Facades\Auth;
 
 class AuthenticationController extends Controller
 {
@@ -197,28 +198,49 @@ class AuthenticationController extends Controller
             // 'refresh_token' => $token_data['refresh_token'],
         ], 200, 'Successful token retrieval');
     }
-    private function sign_up(AuthenticationRequest $request)
+    public function sign_up(AuthenticationRequest $request)
     {
         $data = $request->validated();
         DB::beginTransaction();
             $user = [
                 'name'           => $data['name'],
-                'number'         => $request->input('number') ?? "test_number",
+                'number'         => $data['number'],
                 'verified_email' => 'y',
                 'email'          => $data['email'],
                 'password'       => $data['password'],
-                'providers'      => null
+                'provider'      => null,
+                'social_login_token' => "asd"
             ];
 
             $store_name = $data['store_name'];
             $user_id = User::create($user)->id;
-            $vendor_id = Vendors::create(['name' => $store_name])->id;
+            $vendor_id = Vendors::create(['name' => $store_name,'super_user'=>$user_id])->id;
             VendorUsers::create(['user_id' => $user_id,'vendor_id' => $vendor_id ]);
-            // create super admin role for the owner
             Stores::create(['name' => $store_name,'vendor_id' => $vendor_id]);
+            // script to spin up server_name
             $data['user_id'] = $user_id;
-            OAuthToken::create($data);
-            DB::commit();
+            // OAuthToken::create($data);
+        DB::commit();
+        return response()->json([
+                'data' => [
+                    'vendor_id' => $vendor_id
+                ]
+            ]);
 
+    }
+    public function sign_in(AuthenticationRequest $request){
+        $data = $request->validated();
+        $user =DB::table('users')->where('email',$data['email'])->where('password',$data['password'])->first();
+        if($user == null) {
+            return response()->json([
+                'message' => 'Invalid Credentials'
+            ]);
+        }
+        $vendor = Vendors::where('super_user',$user->id)->first();
+        return response()->json([
+                'data' => [
+                    'vendor_id' => $vendor->id
+                ]
+            ]);
     }
 }

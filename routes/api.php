@@ -18,7 +18,8 @@ Route::group(['prefix' => 'auth'],function(){
     Route::post('/token/refresh', [AuthenticationController::class,'refreshToken']);
     Route::get('/{provider}/callback', [AuthenticationController::class,'callbackHandler']);
     Route::get('/{provider}/url', [AuthenticationController::class,'getAuthorizationURL']);
-    Route::get('/signup',[AuthenticationController::class,'sign_up']);
+    Route::post('/signup',[AuthenticationController::class,'sign_up']);
+    Route::post('/signin',[AuthenticationController::class,'sign_in']);
 });
 
 Route::group(['prefix' => 'order'],function(){

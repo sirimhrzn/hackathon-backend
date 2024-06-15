@@ -38,6 +38,18 @@ class AuthenticationRequest extends BaseFormRequest
             'refreshToken' => [
                 'refresh_token' => "required"
             ],
+            'sign_up' =>  [
+                'name'           => "required",
+                'number'         => "required",
+                'email'          => "required|email|unique:users,email",
+                'store_name'     => "required",
+                'password'       => "required",
+                'providers'      => "sometimes"
+            ],
+            'sign_in' => [
+                'email' => 'required|exists:users,email',
+                'password' => 'required'
+            ],
             default => []
         };
     }
