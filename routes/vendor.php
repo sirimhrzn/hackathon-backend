@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\VendorController;
 use App\Models\Categories;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,13 @@ Route::group(['prefix' => 'store'], function () {
 Route::group(['prefix' => 'user'], function () {
 });
 Route::group(['prefix' => 'setting'], function () {
+    Route::group(['prefix' => 'payments'],function(){
+        Route::group(['prefix' => 'admin'],function(){
+        });
+        Route::group(['prefix' => 'public'],function() {
+            Route::get('options',[VendorController::class,'get_payment_options']);
+        });
+    });
 });
 Route::group(['prefix' => 'analytic'], function () {
 });

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class VendorRequest extends FormRequest
+class OrderRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,8 +21,11 @@ class VendorRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        $action = explode('@', $this->route()->getActionName())[1];
+        return  match ($action) {
+            'place_order' => [
+                'product'
+            ]
+        };
     }
 }

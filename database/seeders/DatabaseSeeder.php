@@ -8,6 +8,7 @@ use App\Models\ProductDetails;
 use App\Models\Products;
 use App\Models\Stores;
 use App\Models\User;
+use App\Models\VendorConfigs;
 use App\Models\Vendors;
 use App\Models\VendorUsers;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -63,25 +64,38 @@ class DatabaseSeeder extends Seeder
             'details' => json_encode([
                 'tax_amount' => 100,
                 'product_service_charge' => 20,
-                'sizes' => [
+           ]),
+            'metadata' => json_encode(['description' => 'This is the product description',
+                'types' => [
                     [
-                        'type' => 'L',
+                        'size' => 'L',
                         'price' =>  1900,
-                        'amount' => 4
+                        'stock' => 4
                     ],
                     [
-                        'type' => 'M',
+                        'size' => 'M',
                         'price' =>  1900,
-                        'quantity' => 4
+                        'stock' => 4
                     ]
                 ]
-            ]),
-            'metadata' => json_encode(['description' => 'This is the product description'])
+
+            ])
         ]);
         $payment_methods = [
             ['name' => 'Esewa' , 'enabled' => 'y'],
             ['name' => 'Khalti', 'enabled' => 'y']
         ];
         PaymentMethods::insert($payment_methods);
+        VendorConfigs::insert([
+            'vendor_id' => 1,
+            'config' => json_encode([
+                'payment_options' => [
+                    [
+                        'id' => 1,
+                        'enabled' => 'y'
+                    ]
+                ]
+            ])
+        ]);
     }
 }

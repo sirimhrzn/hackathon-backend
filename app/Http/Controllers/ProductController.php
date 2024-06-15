@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
-
-use App\Enums\ExceptionEnum;
+namespace App\Http\Controllers; use App\Enums\ExceptionEnum;
 use App\Exceptions\CustomException;
 use App\Http\Requests\ProductRequest;
 use App\Http\Services\ImageService;
 use App\Models\Categories;
+use App\Models\ProductDetails;
 use App\Models\Products;
 use Exception;
 use Illuminate\Http\Request;
@@ -17,13 +16,43 @@ class ProductController extends Controller
 {
     public function create_product(ProductRequest $request)
     {
-        $data = $request->validated();
+        $data = $request->all();
         $images  = $request->allFiles();
         DB::beginTransaction();
-        $image_service = new ImageService();
-        foreach($images as $image) {
-            $image_service->save_image_vendor($image,"product_image");
+        $create_data = [];
+        $model = new Products();
+        $model->name = $data['name'];
+        $model->enabled = $data['enabled'];
+        $model->category_id = $data['category_id'];
+        $model->price = $data['price'];
+        $model->vendor_id = config('request.vendor_id');
+        $model->added_by = 1;
+        $model->save();
+
+        $create_data = [];
+        $create_data['metadata']['description'] = $data['description'];
+        $sizes = explode(",",$data['size']);
+        $counts = explode(",",$data['stock']);
+        $stocks = [];
+        foreach($sizes as $index=>$value){
+            $stocks[] = [
+                'size' => $value,
+                'stock' => (int)$counts[$index]
+            ];
         }
+        $create_data['metadata']['types'] = $stocks;
+        $image_service = new ImageService();
+        foreach($images as $index=>$image) {
+            $path = $image_service->save_image_vendor($image,"product_image");
+            $create_data['metadata']['images'][] = $path;
+        }
+        $details = new ProductDetails();
+        $details->product_id = $model->id;
+        $details->metadata = json_encode($create_data['metadata']);
+        $details->vendor_id = config('request.vendor_id');
+        $details->details = json_encode([]);
+        $details->save();
+        // dd($create_data);
         DB::commit();
         return response()->json([
             'messsage' => 'Product saved successfully'
@@ -78,7 +107,12 @@ class ProductController extends Controller
     }
     public function delete_product(ProductRequest $request)
     {
-        $data = Products::where('id', $request->product_id)->delete();
+        $prod_id = $request->product_id;
+        DB::transaction(function() use ($prod_id){
+            ProductDetails::where('product_id',$prod_id)->delete();
+            Products::where('id', $prod_id)->delete();
+        });
+        // $data = Products::where('id', $request->product_id)->delete();
         return response()->json([
             'message' => 'Product deleted successfully'
         ]);

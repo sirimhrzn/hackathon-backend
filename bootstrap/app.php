@@ -14,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         api: base_path('routes/vendor.php'),
         apiPrefix: 'api/v1/vendor/{vendor_id}'
+    )->withRouting(
+        api: base_path('routes/api.php'),
+        apiPrefix: 'api/v1/global'
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([

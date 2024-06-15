@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Carbon;
 
 class Products extends BaseModel
 {
@@ -35,5 +36,13 @@ class Products extends BaseModel
     public function added_by()
     {
         return $this->belongsTo(User::class, 'added_by', 'id');
+    }
+        protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->created_at = $model->created_at ?? Carbon::now();
+            $model->updated_at = $model->updated_at ?? Carbon::now();
+        });
     }
 }
