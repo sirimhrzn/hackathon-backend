@@ -3,7 +3,7 @@ server {
         listen 443 ssl;
         server_name {{vendor_store}}.sp.com;
         location / {
-                proxy_pass https://8984-124-41-240-75.ngrok-free.app;
+                proxy_pass https://df67-124-41-240-75.ngrok-free.app;
                 add_header vendor_id {{vendor_id}};
         }
 }

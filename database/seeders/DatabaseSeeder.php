@@ -52,9 +52,27 @@ class DatabaseSeeder extends Seeder
             'parent' => 1
         ]);
         Products::create([
-            'name' => 'Iphone 13',
+            'name' => 'Waves Heavyweight Hoodie',
             'enabled' => 'y',
-            'price' => 1000,
+            'price' => 2400,
+            'category_id' => 1,
+            'vendor_id' => 1,
+            'added_by' => 1
+        ]);
+
+        Products::create([
+            'name' => 'SDMN x Hot Wheels Washed Hoodie',
+            'enabled' => 'y',
+            'price' => 2400,
+            'category_id' => 1,
+            'vendor_id' => 1,
+            'added_by' => 1
+        ]);
+
+        Products::create([
+            'name' => 'SDMN x Hot Wheels Racing Jacket',
+            'enabled' => 'y',
+            'price' => 2400,
             'category_id' => 1,
             'vendor_id' => 1,
             'added_by' => 1
@@ -66,7 +84,7 @@ class DatabaseSeeder extends Seeder
                 'tax_amount' => 100,
                 'product_service_charge' => 20,
            ]),
-            'metadata' => json_encode(['description' => 'This is the product description',
+            'metadata' => json_encode(['description' => 'Waves Heavyweight Hoodie',
                 'types' => [
                     [
                         'size' => 'L',
@@ -80,11 +98,65 @@ class DatabaseSeeder extends Seeder
                     ]
                 ],
                 'images' => [
-                    "1/product_image/class.jpg"
+                    "1/product_image/pw.jpg"
                 ]
 
             ])
         ]);
+        ProductDetails::create([
+            'vendor_id' => 1,
+            'product_id' => 2,
+            'details' => json_encode([
+                'tax_amount' => 100,
+                'product_service_charge' => 20,
+           ]),
+            'metadata' => json_encode(['description' => 'SDMN x Hot Wheels Washed Hoodie',
+                'types' => [
+                    [
+                        'size' => 'L',
+                        'price' =>  1000,
+                        'stock' => 4
+                    ],
+                    [
+                        'size' => 'M',
+                        'price' =>  1000,
+                        'stock' => 40
+                    ]
+                ],
+                'images' => [
+                    "1/product_image/11.jpg"
+                ]
+
+            ])
+        ]);
+
+        ProductDetails::create([
+            'vendor_id' => 1,
+            'product_id' => 3,
+            'details' => json_encode([
+                'tax_amount' => 100,
+                'product_service_charge' => 20,
+           ]),
+            'metadata' => json_encode(['description' => 'SDMN x Hot Wheels Racing Jacket',
+                'types' => [
+                    [
+                        'size' => 'L',
+                        'price' =>  1000,
+                        'stock' => 4
+                    ],
+                    [
+                        'size' => 'M',
+                        'price' =>  1000,
+                        'stock' => 40
+                    ]
+                ],
+                'images' => [
+                    "1/product_image/12.jpg"
+                ]
+
+            ])
+        ]);
+
         $payment_methods = [
             // ['name' => 'Esewa' , 'enabled' => 'y'],
             ['name' => 'Khalti', 'enabled' => 'y']

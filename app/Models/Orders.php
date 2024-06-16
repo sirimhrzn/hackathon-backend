@@ -27,4 +27,7 @@ class Orders extends Model
     public function getLocationIdAttribute($value) {
         return Location::where('id',$value)->first()->name;
     }
+    public function getPaymentMethodIdAttribute($value){
+        return PaymentMethods::where('id',$value)->first()->name;
+    }
 }

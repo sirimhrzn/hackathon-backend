@@ -65,8 +65,8 @@ class PaymentController extends Controller
     private function initiate_khalti($payload) {
         $khalti_payload = [
             // 'return_url' => url()->current() . '/api/v1/global/setting/public/callback/khalti',
-            'return_url' => "https://80cf-124-41-240-75.ngrok-free.app" . '/api/v1/global/setting/public/callback/khalti',
-            'website_url' => "https://80cf-124-41-240-75.ngrok-free.app" . '/api/v1/global/setting/public/callback/khalti',
+            'return_url' => "https://ca0e-124-41-240-75.ngrok-free.app" . '/api/v1/global/setting/public/callback/khalti',
+            'website_url' => "https://ca0e-124-41-240-75.ngrok-free.app" . '/api/v1/global/setting/public/callback/khalti',
             'amount' => (int)$payload['total_amount'],
             'purchase_order_id' => $payload['id'],
             'purchase_order_name' => "localhost:3000"
@@ -91,11 +91,10 @@ class PaymentController extends Controller
         $pidx = $request->query('pidx');
         $status = $request->query('status');
         $tidx = $request->query('tidx');
-        $redirect_url = $request->query('purchase_order_name');
         Orders::where('payment_identifier',$pidx)->update([
             'tid' => $tidx,
             'payment_status' => $status,
         ]);
-        return redirect($redirect_url);
+        return redirect("https://df67-124-41-240-75.ngrok-free.app");
     }
 }

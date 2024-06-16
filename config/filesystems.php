@@ -58,11 +58,11 @@ return [
 
         'minio' => [
             'driver' => 's3',
-            'key' => env('MINIO_ACCESS_KEY','3KttRYCM81DpVxif2XzY'),
-            'secret' => env('MINIO_SECRET_KEY','bQVQiyZzFjEcZCbg2fAVf5nVi47UI1iq2i1ysaBb'),
+            'key' => env('MINIO_ACCESS_KEY','eb2ozPF42Y7Qjx3ow5qs'),
+            'secret' => env('MINIO_SECRET_KEY','hRGdD57ctWMqgG76TnqYUkbc6u6nd1mQ4lssquPG'),
             'region' => env('MINIO_REGION','us-east-1'),
             'bucket' => env('MINIO_BUCKET',"spcms"),
-            'endpoint' => env('MINIO_ENDPOINT','http://172.18.0.3:9000'),
+            'endpoint' => env('MINIO_ENDPOINT','http://localhost:9000'),
             'use_path_style_endpoint' => true,
         ],
 
